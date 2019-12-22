@@ -9,6 +9,26 @@
         Icon="Designcontest-Ecommerce-Business-Store.ico"
         Title="MainWindow" Height="450" Width="498.295">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="17*"/>
+        </Grid.RowDefinitions>
+        <Label HorizontalContentAlignment="Center" FontSize="18">Ласкаво просимо. Будь ласка введіть дані для входу:</Label>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Label FontWeight="Bold" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">ЛОГІН:</Label>
+            <TextBox FontSize="35" Grid.Row="1" Name="login"></TextBox>
+            <Label Grid.Row="2" FontWeight="Bold" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">ПАРОЛЬ:</Label>
+            <PasswordBox FontSize="35" Grid.Row="3" Name="password"></PasswordBox>
+            <Button Grid.Row="4" FontSize="30" Background="Black" Foreground="Gainsboro" Click="Button_Click_1">Увійти</Button>
+            <Button Grid.Row="5" FontSize="30" Background="Black" Foreground="Gainsboro" Click="Button_Click">Відновити пароль</Button>
+        </Grid>
     </Grid>
 </Window>

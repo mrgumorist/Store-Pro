@@ -24,5 +24,49 @@ namespace Store_Pro
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Зверніться будь ласка до адміністратора!");
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+          
+                const string WEBSERVICE_URL = @"http://localhost:50471/api/Apii/Login";
+                try
+                {
+                    var webRequest = System.Net.WebRequest.Create(WEBSERVICE_URL);
+                    if (webRequest != null)
+                    {
+                        webRequest.Method = "GET";
+                        webRequest.Timeout = 12000;
+                        webRequest.ContentType = "application/json";
+                        webRequest.Headers.Add("Authorization2", "Basic dchZ2VudDM6cGFdGVzC5zc3dvmQ=");
+                        webRequest.Headers.Add("Username", login.Text);
+                        webRequest.Headers.Add("Password", password.Password);
+                    using (System.IO.Stream s = webRequest.GetResponse().GetResponseStream())
+                        {
+                            using (System.IO.StreamReader sr = new System.IO.StreamReader(s))
+                            {
+                                var jsonResponse = sr.ReadToEnd();
+                               if(jsonResponse== @"""Succesfull""")
+                            {
+                                MessageBox.Show("Вдалий вхід.");
+                            }
+                               else
+                            {
+                                MessageBox.Show("Помилка! Можливо невірний пароль або немає підключення до інтернету.");
+                            }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            
+        }
     }
 }

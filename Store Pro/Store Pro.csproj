@@ -97,5 +97,8 @@
   <ItemGroup>
     <Resource Include="Designcontest-Ecommerce-Business-Store.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="open-uri20150527-11-j5oul2.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
