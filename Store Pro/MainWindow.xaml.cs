@@ -1,4 +1,6 @@
 ﻿using Store_Pro.AdminPanel;
+using Store_Pro.OwnerPanel;
+using Store_Pro.SellerPanel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +23,7 @@ namespace Store_Pro
     /// </summary>
     public partial class MainWindow : Window
     {
+        const string host = @"http://localhost:50471";
         public MainWindow()
         {
             InitializeComponent();
@@ -34,7 +37,7 @@ namespace Store_Pro
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
           
-                const string WEBSERVICE_URL = @"http://localhost:50471/api/Apii/Login";
+                 string WEBSERVICE_URL = host+@"/api/Apii/Login";
             try
             {
                 var webRequest = System.Net.WebRequest.Create(WEBSERVICE_URL);
@@ -58,9 +61,12 @@ namespace Store_Pro
                                 string req = GetTypeRequest();
                                 if (req != "Error")
                                 {
+                                    string ID = GetID();
+                                    ID = ID.Replace(@"""", "");
+                                    ID = ID.Replace(@"""", "");
                                     //TODO ADMIN, OWNER, SELLER
-                                   // MessageBox.Show(req);
-                                    if(req==@"""Admin""")
+                                    // MessageBox.Show(req);
+                                    if (req==@"""Admin""")
                                     {
                                         Адмін_Панель адмінка = new Адмін_Панель(login.Text, password.Password);
                                         login.Clear();
@@ -71,11 +77,21 @@ namespace Store_Pro
                                     }
                                     else if(req == @"""Owner""")
                                     {
-
+                                        СторінкаАдміністратораМагазину сторінка = new СторінкаАдміністратораМагазину(ID);
+                                        login.Clear();
+                                        password.Clear();
+                                        Hide();
+                                        сторінка.ShowDialog();
+                                        Show();
                                     }
                                     else
                                     {
-
+                                        Сторінка_Продавця сторінка_ = new Сторінка_Продавця(ID);
+                                        login.Clear();
+                                        password.Clear();
+                                        Hide();
+                                        сторінка_.ShowDialog();
+                                        Show();
                                     }
                                 }
                                 else
@@ -93,14 +109,44 @@ namespace Store_Pro
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                MessageBox.Show("Помилка! Можливо невірний пароль або немає підключення до інтернету.");
             }
             
         }
         private string GetTypeRequest()
         {
 
-            const string WEBSERVICE_URL = @"http://localhost:50471/api/Apii/GetTypeOfAccount";
+            const string WEBSERVICE_URL = host+@"/api/Apii/GetTypeOfAccount";
+            try
+            {
+                var webRequest = System.Net.WebRequest.Create(WEBSERVICE_URL);
+                if (webRequest != null)
+                {
+                    webRequest.Method = "GET";
+                    webRequest.Timeout = 12000;
+                    webRequest.ContentType = "application/json";
+                    webRequest.Headers.Add("Authorization2", "Basic dchZ2VudDM6cGFdGVzC5zc3dvmQ=");
+                    webRequest.Headers.Add("Username", login.Text);
+                    webRequest.Headers.Add("Password", password.Password);
+                    using (System.IO.Stream s = webRequest.GetResponse().GetResponseStream())
+                    {
+                        using (System.IO.StreamReader sr = new System.IO.StreamReader(s))
+                        {
+                            var jsonResponse = sr.ReadToEnd();
+                            return jsonResponse;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return "";
+        }
+        private string GetID()
+        {
+            const string WEBSERVICE_URL = host + @"/api/Apii/GetID";
             try
             {
                 var webRequest = System.Net.WebRequest.Create(WEBSERVICE_URL);
