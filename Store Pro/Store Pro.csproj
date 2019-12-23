@@ -55,10 +55,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="AdminPanel\Адмін Панель.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="AdminPanel\Адмін Панель.xaml.cs">
+      <DependentUpon>Адмін Панель.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -99,6 +106,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="open-uri20150527-11-j5oul2.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="OwnerPanel\" />
+    <Folder Include="SellerPanel\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

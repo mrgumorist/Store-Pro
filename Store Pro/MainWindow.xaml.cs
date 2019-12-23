@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Store_Pro.AdminPanel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,39 +35,98 @@ namespace Store_Pro
         {
           
                 const string WEBSERVICE_URL = @"http://localhost:50471/api/Apii/Login";
-                try
+            try
+            {
+                var webRequest = System.Net.WebRequest.Create(WEBSERVICE_URL);
+                if (webRequest != null)
                 {
-                    var webRequest = System.Net.WebRequest.Create(WEBSERVICE_URL);
-                    if (webRequest != null)
-                    {
-                        webRequest.Method = "GET";
-                        webRequest.Timeout = 12000;
-                        webRequest.ContentType = "application/json";
-                        webRequest.Headers.Add("Authorization2", "Basic dchZ2VudDM6cGFdGVzC5zc3dvmQ=");
-                        webRequest.Headers.Add("Username", login.Text);
-                        webRequest.Headers.Add("Password", password.Password);
+                    webRequest.Method = "GET";
+                    webRequest.Timeout = 12000;
+                    webRequest.ContentType = "application/json";
+                    webRequest.Headers.Add("Authorization2", "Basic dchZ2VudDM6cGFdGVzC5zc3dvmQ=");
+                    webRequest.Headers.Add("Username", login.Text);
+                    webRequest.Headers.Add("Password", password.Password);
                     using (System.IO.Stream s = webRequest.GetResponse().GetResponseStream())
+                    {
+                        using (System.IO.StreamReader sr = new System.IO.StreamReader(s))
                         {
-                            using (System.IO.StreamReader sr = new System.IO.StreamReader(s))
-                            {
-                                var jsonResponse = sr.ReadToEnd();
-                               if(jsonResponse== @"""Succesfull""")
+                            var jsonResponse = sr.ReadToEnd();
+                            if (jsonResponse == @"""Succesfull""")
                             {
                                 MessageBox.Show("Вдалий вхід.");
+                                //REQUEST GET TYPE OF ACCOUNT
+                                string req = GetTypeRequest();
+                                if (req != "Error")
+                                {
+                                    //TODO ADMIN, OWNER, SELLER
+                                   // MessageBox.Show(req);
+                                    if(req==@"""Admin""")
+                                    {
+                                        Адмін_Панель адмінка = new Адмін_Панель(login.Text, password.Password);
+                                        login.Clear();
+                                        password.Clear();
+                                        Hide();
+                                        адмінка.ShowDialog();
+                                        Show();
+                                    }
+                                    else if(req == @"""Owner""")
+                                    {
+
+                                    }
+                                    else
+                                    {
+
+                                    }
+                                }
+                                else
+                                {
+                                    
+                                }
                             }
-                               else
+                            else
                             {
                                 MessageBox.Show("Помилка! Можливо невірний пароль або немає підключення до інтернету.");
-                            }
                             }
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
             
+        }
+        private string GetTypeRequest()
+        {
+
+            const string WEBSERVICE_URL = @"http://localhost:50471/api/Apii/GetTypeOfAccount";
+            try
+            {
+                var webRequest = System.Net.WebRequest.Create(WEBSERVICE_URL);
+                if (webRequest != null)
+                {
+                    webRequest.Method = "GET";
+                    webRequest.Timeout = 12000;
+                    webRequest.ContentType = "application/json";
+                    webRequest.Headers.Add("Authorization2", "Basic dchZ2VudDM6cGFdGVzC5zc3dvmQ=");
+                    webRequest.Headers.Add("Username", login.Text);
+                    webRequest.Headers.Add("Password", password.Password);
+                    using (System.IO.Stream s = webRequest.GetResponse().GetResponseStream())
+                    {
+                        using (System.IO.StreamReader sr = new System.IO.StreamReader(s))
+                        {
+                            var jsonResponse = sr.ReadToEnd();
+                            return jsonResponse;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return "";
         }
     }
 }
