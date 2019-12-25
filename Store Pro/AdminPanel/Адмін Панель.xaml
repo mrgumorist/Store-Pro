@@ -8,8 +8,35 @@
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
                 Icon="/Store Pro;component/Designcontest-Ecommerce-Business-Store.ico"
-        Title="Адмін Панель" Height="450" Width="800">
+        Title="Адмін Панель" Height="450" Width="800" Loaded="Window_Loaded">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="96*"/>
+            <ColumnDefinition Width="301*"/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Button Background="Red" Foreground="White" FontSize="20" Click="Button_Click">Головна</Button>
+            <Button Background="Red" Foreground="White" FontSize="20" Grid.Row="1" Click="Button_Click_1">Магазини</Button>
+            <Button Background="Red" Foreground="White" FontSize="20" Grid.Row="2" Click="Button_Click_2">Аккаунти</Button>
+        </Grid>
+        <Frame Grid.Column="1" Name="frame1" Visibility="Hidden">
+            
+        </Frame>
+        <Frame Grid.Column="1" Name="frame2" Visibility="Hidden">
+
+        </Frame>
+        <Frame Grid.Column="1" Name="frame3" Visibility="Hidden">
+
+        </Frame>
     </Grid>
 </Window>
